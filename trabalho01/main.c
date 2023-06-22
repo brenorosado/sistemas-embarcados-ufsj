@@ -3,8 +3,11 @@
 #include <string.h>
 #include <math.h>
 #include "./vetor/vetor.h"
+#include "./vetor/vetor.c"
 #include "./matriz/matriz.h"
+#include "./matriz/matriz.c"
 #include "./fila/fila.h"
+#include "./fila/fila.c"
 
 int main() {
     struct fila *sentinela, *aux;
@@ -67,6 +70,7 @@ int main() {
             printf("\nPonteiro de dados nao atribuido!");
         } else if (aux->cod == 1) {
             printf("\nPonteiro de dados aponta para um vetor!");
+            escreve_vetor(aux->dados);
             checksum(aux->dados);
         } else if (aux->cod == 2) {
             printf("\nPonteiro de dados aponta para uma matriz!");

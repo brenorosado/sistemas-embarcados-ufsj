@@ -1,7 +1,6 @@
 #ifndef FILA_H_INCLUDED
 #define FILA_H_INCLUDED
 
-
 struct fila {
     int seq;
     int cod;
@@ -9,86 +8,14 @@ struct fila {
     void *dados;
 };
 
-struct fila * inicia_fila() {
-    struct fila *f;
-    f = malloc(sizeof(struct fila));
+struct fila * inicia_fila();
 
-    if (f == NULL) {
-        printf("Falha na alocacao de memoria.\n");
-        return NULL;
-    }
+int acrescenta(struct fila *f, void *dados, int cod);
 
-    f->seq = 0;
-    f->cod = 0;
-    f->next = NULL;
+int mostra(struct fila *f);
 
-    return f;
-}
+int remove_elemento(struct fila *f);
 
-int acrescenta(struct fila *f, void *dados, int cod) {
-    if (f == NULL) {
-        printf("\nFalha ao acrescentar elemento.\n");
-        return 1;
-    }
-
-    struct fila *newElement;
-    newElement = malloc(sizeof(struct fila));
-
-    if (newElement == NULL) {
-        free(newElement);
-        printf("\nFalha ao acrescentar elemento.\n");
-        return 1;
-    }
-
-    f->next = newElement;
-    newElement->seq = f->seq + 1;
-    newElement->cod = cod;
-    newElement->dados = dados;
-    newElement->next = NULL;
-    return 0;
-}
-
-int mostra(struct fila *f) {
-    struct fila *aux;
-    if (f == NULL) {
-        printf("\nPonteiro passado para funcao mostra eh NULL.\n");
-        return 1;
-    }
-
-    aux = f;
-    printf("\nInicio da fila\n");
-    while(aux != NULL) {
-        printf("\nELEMENTO: %d; CODIGO: %d", aux->seq, aux->cod);
-        aux = aux->next;
-    }
-    printf("\n\nFim da fila\n");
-
-    return 0;
-}
-
-int remove_elemento(struct fila *f) {
-    struct fila *ultimo, *penultimo;
-
-    ultimo = f;
-
-    while(ultimo->next != NULL) {
-        penultimo = ultimo;
-        ultimo = ultimo->next;
-    }
-
-    penultimo->next = NULL;
-    free(ultimo);
-
-    return 0;
-}
-
-struct fila * move(struct fila *f) {
-    if (f == NULL) {
-        printf("\nPonteiro passado para funcao move eh NULL.\n");
-        return NULL;
-    }
-
-    return f->next;
-}
+struct fila * move(struct fila *f);
 
 #endif
