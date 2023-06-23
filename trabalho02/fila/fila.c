@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "fila.h"
+#include "../tipos_comuns.h"
 
 struct fila * inicia_fila() {
     struct fila *f;

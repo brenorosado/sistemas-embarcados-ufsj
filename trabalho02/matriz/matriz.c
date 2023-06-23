@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "matriz.h"
+#include "../tipos_comuns.h"
 
 struct matriz * aloca_matriz(int L, int C) {
     if (L <= 0 || C <= 0) {
@@ -172,36 +173,3 @@ struct matriz * le_matriz(char *arquivo, int texto) {
         // le matriz de arquivo binario
     }
 }
-
-// int main() {
-//     int C = 3, L = 3, r;
-//     struct matriz *m1, *m2;
-
-//     m1 = aloca_matriz(L, C);
-
-//     if(m1 == NULL) {
-//         printf("\nFalha na alocacao da matriz");
-//         return -1;
-//     }
-
-//     r = preenche_matriz_aleatoria(m1, 10000.00);
-
-//     if(r != 0) {
-//         printf("\nFalha ao preencher aleatoriamente a matriz");
-//         desaloca_matriz(m1);
-//         return -1;
-//     }
-
-//     mostra_matriz(m1);
-
-//     checksum_matriz(m1);
-
-//     salva_matriz(m1, 1);
-    
-//     m2 = le_matriz(m1->arquivo, 1);
-    
-//     printf("\nMatriz lida do arquivo:");
-//     mostra_matriz(m2);
-    
-//     return 0;
-// }

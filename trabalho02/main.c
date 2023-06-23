@@ -8,6 +8,7 @@
 #include "./matriz/matriz.c"
 #include "./fila/fila.h"
 #include "./fila/fila.c"
+#include "./tipos_comuns.h"
 
 int main() {
     struct fila *sentinela, *aux;

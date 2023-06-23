@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "vetor.h"
+#include "../tipos_comuns.h"
 
 struct vetor * aloca_vetor(int N) {
     struct vetor *novo_vetor;
