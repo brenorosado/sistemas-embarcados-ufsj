@@ -21,6 +21,8 @@ struct fila * inicia_fila() {
 }
 
 int acrescenta_elemento(struct fila *f, void *dados, int cod) {
+    char aux_nome_arquivo[NOMEARQUIVO];
+
     if (f == NULL) {
         printf("\nFalha ao acrescentar elemento.\n");
         return 1;
@@ -40,6 +42,15 @@ int acrescenta_elemento(struct fila *f, void *dados, int cod) {
     newElement->cod = cod;
     newElement->dados = dados;
     newElement->next = NULL;
+
+
+    if(cod == 1) {
+        sprintf(aux_nome_arquivo, "./v-%d-%d.txt", newElement->cod, newElement->seq);
+        vetor_nome_arquivo(dados, aux_nome_arquivo);
+    } else if (cod == 2) {
+        sprintf(aux_nome_arquivo, "./m-%d-%d.txt", newElement->cod, newElement->seq);
+        matriz_nome_arquivo(dados, aux_nome_arquivo);
+    }
     return 0;
 }
 
@@ -86,24 +97,87 @@ int mostra(struct fila *f) {
     return 0;
 }
 
-// int main() {
-//     struct fila *sentinela, *aux;
-//     void *dadosAux;
-    
-//     sentinela = inicia_fila();
+int salva_fila(struct fila *f, char *nome_arquivo) {
+    char aux_nome_arquivo[NOMEARQUIVO];
+    int num_elementos_fila = 0;
+    struct fila *aux;
+    FILE *arquivo;
 
-//     aux = sentinela;
+    if (f == NULL) {
+        printf("\nPonteiro passado para funcao salva_fila eh NULL.\n");
+        return -1;
+    }
 
-//     for(int i = 0; i < 9; i++) {
-//         acrescenta_elemento(aux, dadosAux, aux->cod + 4);
-//         aux = aux->next;
-//     }
+    arquivo = fopen(nome_arquivo, "w");
 
-//     mostra(sentinela);
-//     remove_elemento(sentinela);
-//     mostra(sentinela);
-//     sentinela = move(sentinela);
-//     mostra(sentinela);
+    if(arquivo == NULL) {
+        printf("\nFalha na abertura do arquivo!");
+        return -1;
+    }
 
-//     return 0;
-// }
+    aux = f;
+    while(aux != NULL) {
+        num_elementos_fila++;
+        aux = aux->next;
+    }
+    fprintf(arquivo, "#%d", num_elementos_fila);
+
+    aux = f;
+    while(aux != NULL) {
+        if(aux->cod == COD_VAZIO) {
+            fprintf(arquivo, "\n%d:%d", aux->seq, 0);
+        } else if (aux->cod == COD_VETOR) {
+            fprintf(arquivo, "\n%d:%d", aux->seq, 1);
+        } else if (aux->cod == COD_MATRIZ) {
+            fprintf(arquivo, "\n%d:%d", aux->seq, 2);
+        }
+        aux = aux->next;
+    }
+    fclose(arquivo);
+
+    return 0;
+}
+
+struct fila * carrega_fila(char *nome_arquivo) {
+    int numElementosFila, i;
+    struct fila *sentinela, *aux;
+    FILE *arquivo;
+    char aux_nome_arquivo[NOMEARQUIVO];
+
+    sentinela = malloc(sizeof(struct fila));
+
+    if (sentinela == NULL) {
+        printf("Falha na alocacao de memoria.\n");
+        return NULL;
+    }
+
+    arquivo = fopen(nome_arquivo, "r");
+
+    if(arquivo == NULL) {
+        printf("\nFalha na abertura do arquivo!");
+        return NULL;
+    }
+
+    fscanf(arquivo, "#%d", &numElementosFila);
+    aux = sentinela;
+    for(i = 0; i <= numElementosFila; i++) {
+        fscanf(arquivo, "%d:%d", &aux->seq, &aux->cod);
+        if(aux->cod == 1) {
+            sprintf(aux_nome_arquivo, "./v-%d-%d.txt", aux->cod, aux->seq);
+            aux->dados = le_vetor(aux_nome_arquivo, 1);
+        } else if (aux->cod == 2) {
+            sprintf(aux_nome_arquivo, "./m-%d-%d.txt", aux->cod, aux->seq);
+            aux->dados = le_matriz(aux_nome_arquivo, 1);
+        }
+
+        if(aux->seq != (numElementosFila - 1)) {
+            aux->next = malloc(sizeof(struct fila));
+            aux = aux->next;
+        } else {
+            aux->next = NULL;
+        }
+    }
+    fclose(arquivo);
+
+    return sentinela;
+}

@@ -18,8 +18,6 @@ struct matriz * aloca_matriz(int L, int C) {
     m->L = L;
     m->C = C;
     m->m = (valor **)malloc(L * sizeof(valor *));
-    
-    matriz_nome_arquivo(m, "./arquivoMatriz.txt");
 
     if (m->m == NULL) {
         free(m);
@@ -161,8 +159,6 @@ struct matriz * le_matriz(char *arquivo, int texto) {
         fscanf(arquivoToBeRead, "#%d #%d", &linhas, &colunas);
 
         matriz_lida = aloca_matriz(linhas, colunas);
-
-        matriz_nome_arquivo(matriz_lida, arquivo);
         
         for(i = 0; i < linhas; i++) {
             for(j = 0; j < colunas; j++) {

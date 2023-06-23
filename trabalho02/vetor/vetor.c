@@ -21,7 +21,6 @@ struct vetor * aloca_vetor(int N) {
     }
 
     novo_vetor->N = N;
-    vetor_nome_arquivo(novo_vetor, "./arquivoVetor.txt");
 
     return novo_vetor;
 }
@@ -126,7 +125,6 @@ struct vetor * le_vetor(char *arquivo, int texto) {
     int i;
     struct vetor *vetor_lido;
 
-
     if(texto != 0) {
         arquivoToBeRead = fopen(arquivo, "r");
 
@@ -140,7 +138,6 @@ struct vetor * le_vetor(char *arquivo, int texto) {
 
         for(i = 0; i < tamanho; i++) {
             fscanf(arquivoToBeRead, "%f", &aux);
-            printf("\nFROM FILE %f", aux);
             vetor_lido->v[i] = aux;
         }
 
@@ -152,34 +149,3 @@ struct vetor * le_vetor(char *arquivo, int texto) {
 
     return NULL;
 }
-
-// int main() {
-//     int N = 8, r;
-//     struct vetor *v1, *v2;
-
-//     v1 = aloca_vetor(N);
-//     if(v1 == NULL) {
-//         printf("\nFalha na alocacao do vetor");
-//         return -1;
-//     }
-
-//     r = preenche_vetor_aleatorio(v1, 100.00);
-//     if(r != 0) {
-//         printf("\nFalha ao preencher aleatoriamente o vetor");
-//         desaloca_vetor(v1);
-//         return -1;
-//     }
-
-//     mostra_vetor(v1);
-    
-//     checksum(v1);
-
-//     salva_vetor(v1, 1);
-
-//     v2 = le_vetor(v1->arquivo, 1);
-    
-//     printf("\nVetor lido do arquivo:");
-//     mostra_vetor(v2);
-
-//     return 0;
-// }
