@@ -16,12 +16,10 @@ int main() {
     struct matriz *matriz_aux;
 
     int check_aux;
-
     sentinela = inicia_fila();
-
     aux = sentinela;
 
-    for(int i = 0; i < 6; i++) {
+    for(int i = 0; i < 201; i++) {
         if(i % 2 == 0) {
             vetor_aux = aloca_vetor(1001);
 
@@ -40,7 +38,11 @@ int main() {
 
             acrescenta_elemento(aux, vetor_aux, 1);
 
-            salva_vetor(vetor_aux, 1);
+            check_aux = salva_vetor(vetor_aux, 1);
+            if(check_aux != 0) {
+                printf("\nFalha ao salvar vetor.");
+                return -1;
+            }
         } else {
             matriz_aux = aloca_matriz(101, 101);
 
@@ -59,14 +61,23 @@ int main() {
 
             acrescenta_elemento(aux, matriz_aux, 2);
 
-            salva_matriz(matriz_aux, 1);
+            check_aux = salva_matriz(matriz_aux, 1);
+            if(check_aux != 0) {
+                printf("\nFalha ao salvar matriz.");
+                return -1;
+            }
         }
         aux = aux->next;
     }
 
     mostra(sentinela);
 
-    int resultSalvar = salva_fila(sentinela, "./arquivoFila.txt");
+    check_aux = salva_fila(sentinela, "./arquivoFila.txt");
+    if(check_aux != 0) {
+        printf("\nFalha ao salvar fila.");
+        return -1;
+    }
+    
     sentinela = carrega_fila("./arquivoFila.txt");
     printf("\nFILA CARREGADA DO ARQUIVO");
     mostra(sentinela);
